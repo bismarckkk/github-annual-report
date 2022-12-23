@@ -14,8 +14,8 @@ const isPc = () => {
         'iPad',
         'iPod',
     ];
-    var flag = true;
-    for (var v = 0; v < Agents.length; v++) {
+    let flag = true;
+    for (let v = 0; v < Agents.length; v++) {
         if (userAgentInfo.indexOf(Agents[v]) > 0) {
             flag = false;
             break;
@@ -24,7 +24,7 @@ const isPc = () => {
     return flag;
 };
 
-if (!isPc()) {
+if (isPc()) {
     alert('请手机端食用');
 }
 

@@ -5,7 +5,7 @@ const fetch = (url, token) => {
     console.log(url);
     return window.fetch(`${baseURL}${url}`, {
         headers: {
-            Authorization: `token ${token}`,
+            Authorization: `Bearer ${token}`,
         },
     });
 };
@@ -64,14 +64,14 @@ export const fetchFollowing = async (username, token) => {
     return await res.json();
 };
 
-export const fetchCommits = async (repoName, token) => {
+export const fetchCommits = async (repoName, token, username) => {
     const key = `commits-${repoName}`;
     let res = await get(key);
     if (res) {
         return res;
     }
 
-    res = await fetch(`/repos/${repoName}/commits`, token);
+    res = await fetch(`/repos/${repoName}/commits?author=${username}`, token);
     const commits = await res.json();
     set(key, commits);
     return commits;

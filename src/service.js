@@ -118,17 +118,12 @@ export const requestCommits = async token => {
 
     await Promise.all(
         repos.map(async repo => {
-            const commitsList = await fetchCommits(repo.full_name, token);
+            const commitsList = await fetchCommits(repo.full_name, token, username);
             // 计算晚上提交的commits数据
             commitsList.forEach(({ commit, author }) => {
-                const login = author && author.login;
-                const login2 = commit.author.name;
                 const date = commit.author.date;
                 // const { name, date } = commit.author;
-                if (
-                    (login === username || login2 === username) &&
-                    is2019(date)
-                ) {
+                if (is2019(date)) {
                     const dateMonth = new Date(date).toLocaleDateString();
                     if (!dayCommitsDirectory[dateMonth]) {
                         dayCommitsDirectory[dateMonth] = [
@@ -145,14 +140,16 @@ export const requestCommits = async token => {
                     }
 
                     let time = new Date(date);
-                    const hours = time.getHours();
-
-                    if (hours < 21) {
+                    let hours = time.getHours();
+                    if (hours < 21 && hours > 5) {
                         return;
                     }
                     commitsAtNight.total++;
 
                     const minutes = time.getMinutes();
+                    if (hours <= 5) {
+                        hours += 24
+                    }
                     time = hours + minutes / 100;
 
                     if (time > commitsAtNight.latestTime) {

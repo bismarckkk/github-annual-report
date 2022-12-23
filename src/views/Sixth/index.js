@@ -10,7 +10,7 @@ export default function Sixth() {
     return (
         <div className="sixth">
             <section>
-                <p>2019年过去了，我很怀念它</p>
+                <p>2022年过去了，我很怀念它</p>
                 <br />
                 <p>生活得继续</p>
                 <p>代码也还得写</p>
