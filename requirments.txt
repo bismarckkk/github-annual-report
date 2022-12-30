@@ -1,0 +1,4 @@
+gevent
+requests
+flask
+flask_cors
